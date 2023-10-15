@@ -1,0 +1,14 @@
+canvas{
+    border:  solid black;
+    display: block;
+    margin: 0 auto;
+    background-color:rgb(8, 8, 8);
+    border: 1px solid rgb(68, 68, 68);
+}
+body{
+    background-image:url("/Game_spaceInvader_abhineet/assets/ultra-detailed-nebula-abstract-wallpaper-4.jpg") ;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+
+    
+}
