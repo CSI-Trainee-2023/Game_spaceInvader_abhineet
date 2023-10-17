@@ -2,11 +2,17 @@ canvas{
     border:  solid black;
     display: block;
     margin: 0 auto;
-    background-color:rgb(8, 8, 8);
     border: 1px solid rgb(68, 68, 68);
 }
+/* @font-face { font-family:Starjhol; src: url('\assets\Starjhol.ttf'); }  */
+/* h1{
+    font-family: 'Times New Roman', Times, serif;
+    color: white;
+    display: block;
+    text-align: center;
+} */
 body{
-    background-image:url("/Game_spaceInvader_abhineet/assets/ultra-detailed-nebula-abstract-wallpaper-4.jpg") ;
+    background-image:url("assets/ultra-detailed-nebula-abstract-wallpaper-4.jpg") ;
     background-repeat: no-repeat;
     background-size: 100% 100%;
 

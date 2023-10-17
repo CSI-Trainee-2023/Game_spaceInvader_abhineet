@@ -1,41 +1,54 @@
-var canvas= document.querySelector('canvas');
-const context=canvas.getContext("2d")
-class ship{
-    constructor(){
-        this.position={
-            x: 200,
-            y: 200
+const canvas=document.getElementById("space_invader");
+const ctx=canvas.getContext("2d");
 
-        }
-        this.velocity={
-            x: 0,
-            y: 0
-        }
-        const img=new Image()
-        img.src="/Game_spaceInvader_abhineet/assets/download-removebg-preview.png"
-        
-        img.onload=()=>{
-            const scale=0.25
-            this.img=img
-            this.width=img.width*scale
-            this.height=img.height*scale
-        
-        }
-        
+
+// monster control
+
+class MonsterControl{
+    monstermap=[
+        [0,0,0,1,1,0,0,0],
+        [1,1,1,1,1,1,1,1],
+        [1,1,2,2,2,2,1,1],
+        [1,1,1,1,1,1,1,1],
+        [1,1,1,1,1,1,1,1],
+    ];
+    monsterRows=[];
+    constructor(canvas){
+        this.canvas=canvas;
+        this.createmonster();
     }
-    draw(){
-        if(this.draw){
-            c.draw (
-                this.img, 
-                this.position.x,
-                this.position.y,
-                this.width,
-                this.height
-            )
-            
-                   
-        }
+    draw(ctx){
+       
+    }
+    createmonster(){
+        this.monstermap.forEach((row,rowIndex)=>{
+            this.monsterRows[rowIndex]=[];
+            row.forEach((monsterNumber,monsterIndex)=>{
+                if(monsterNumber>0){
+                    this.enemyRows[rowIndex].push(new monster(monsterIndex*50, rowIndex*35,monsterNumber))
+                }
+            })
+
+
+        })
+
+    }
+}
+class monster{
+    constructor(x,y,imageNumber){
+        
     }
 
 }
+// const monsterControl= new MonsterControl(canvas);
 
+
+// main function call for the game
+const bg= new Image();
+bg.src="assets/space.png"; 
+alert("fuck u")
+function game(){
+    ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+    monsterControl.draw(ctx);
+}
+setInterval(game,1000/60);
