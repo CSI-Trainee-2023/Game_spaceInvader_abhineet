@@ -7,6 +7,8 @@ bg.src="assets/space.png";
 let shipImg;
 let velocityx= blockSize;
 let velocityy= blockSize;
+const a1 = document.getElementById("blastAudio");
+const a2 = document.getElementById("gameoverAudio");
 
 //monster
 let array=[]
@@ -23,7 +25,10 @@ let monsterVelocityx=2;
 //bullet
 let bulletArray=[];
 let bulletVelocity=-10;
+let score=0;
+let gameover=false;
 
+let gameovertext="Game Over";
 
 //ship
 
@@ -47,7 +52,7 @@ window.onload=function(){
     context=board.getContext("2d");
     context.drawImage(bg, 0, 0, board.width, board.height);
     shipImg=new Image();
-    shipImg.src="assets/main_char.png";
+    shipImg.src="assets/main (2).png";
     shipImg.onload=function(){
         context.drawImage(shipImg,ship.x,ship.y,ship.width,ship.height)
     }
@@ -66,6 +71,9 @@ window.onload=function(){
 
 function update(){
     requestAnimationFrame(update);
+    if(gameover){
+        return;
+    }
     context.clearRect(0,0,board.width,board.height);
     context.drawImage(bg, 0, 0, board.width, board.height);
 
@@ -85,13 +93,22 @@ function update(){
             }
 
             context.drawImage(monsterImg,monster.x,monster.y,monster.width,monster.height)
+            if(monster.y>=ship.y){
+                gameover=true;
+                audio2();
+                context.fillStyle="white";
+                context.font="60px courier";
+                context.fillText(gameovertext,270,350)
+            }
         }
+
     }
     for(let i=0;i< bulletArray.length;i++){
         let  bullet= bulletArray[i];
         bullet.y+=bulletVelocity;
         context.fillStyle="orange";
         context.fillRect(bullet.x,bullet.y,bullet.width,bullet.height);
+        
 
         for(let j=0;j<array.length;j++){
             let monster=array[j];
@@ -99,17 +116,34 @@ function update(){
                 bullet.used= true;
                 monster.alive=false;
                 monsterCount--;
+                score++;
+                audio1();
             }
         }
     }
 
-    while(bulletArray.length>0 && (bulletArray[0].used || bullet[0].y<0)){
+    while(bulletArray.length>0 && (bulletArray[0].used || bulletArray[0].y<0)){
         bulletArray.shift();
     }
 
+    if(monsterCount==0){
+        monsterColoumn = Math.min(monsterColoumn+1, columns/2);
+        monsterRows=Math.min(monsterRows+1, rows+44);
+        monsterVelocityx+=.5;
+        array=[];
+        bulletArray=[];
+        createMonster();
+
+    }
+    context.fillStyle="white";
+    context.font="20px courier";
+    context.fillText(score,5,20)
 
 }
 function movement(event){
+    if(gameover){
+        return;
+    }
     if(event.code=="ArrowLeft" && ship.x-velocityx>=0){
         ship.x-=2*velocityx;
     }
@@ -139,6 +173,10 @@ function movement(event){
     monsterCount=array.length;
  }
 function fire(event){
+    if(gameover){
+        return;
+    }
+
     if(event.code=="Space"){
         let bullet={
             x: ship.x+shipWidth/2,
@@ -148,9 +186,22 @@ function fire(event){
             used:false
         }
         bulletArray.push(bullet);
+        
     }
 }
 
 function collision(a,b){
     return a.x< b.x+b.width && a.x+a.width>b.x && a.y<b.y+b.height && a.y+a.height>b.y;
+}
+function audio1(){
+    a1.currentTime=0;
+
+
+    a1.play();
+}
+function audio2(){
+    a2.currentTime=0;
+
+
+    a2.play();
 }
