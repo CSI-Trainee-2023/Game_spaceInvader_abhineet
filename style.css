@@ -4,13 +4,7 @@ canvas{
     margin: 0 auto;
     border: 1px solid rgb(68, 68, 68);
 }
-/* @font-face { font-family:Starjhol; src: url('\assets\Starjhol.ttf'); }  */
-/* h1{
-    font-family: 'Times New Roman', Times, serif;
-    color: white;
-    display: block;
-    text-align: center;
-} */
+
 body{
     background-image:url("assets/ultra-detailed-nebula-abstract-wallpaper-4.jpg") ;
     background-repeat: no-repeat;

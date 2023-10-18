@@ -20,7 +20,7 @@ let monsterImg;
 let monsterRows=2;
 let monsterColoumn=2;
 let monsterCount=0;
-let monsterVelocityx=2;
+let monsterVelocityx=3;
 
 //bullet
 let bulletArray=[];
@@ -29,6 +29,8 @@ let score=0;
 let gameover=false;
 
 let gameovertext="Game Over";
+let bombArray=[];
+let bombVelocity=5;
 
 //ship
 
@@ -44,6 +46,8 @@ let ship= {
     width: shipWidth,
     height: shipHeight
 } 
+let timeout;
+
 
 
 
@@ -67,6 +71,7 @@ window.onload=function(){
     document.addEventListener("keyup",fire);
 }
 
+
 //movement of ship
 
 function update(){
@@ -77,7 +82,7 @@ function update(){
     context.clearRect(0,0,board.width,board.height);
     context.drawImage(bg, 0, 0, board.width, board.height);
 
-
+    
     context.drawImage(shipImg,ship.x,ship.y,ship.width,ship.height);
     for(let i=0;i<array.length;i++){
         let monster=array[i];
@@ -86,11 +91,14 @@ function update(){
             if(monster.x+ monsterWidth>=board.width-5*blockSize || monster.x<=5*blockSize){
                 monsterVelocityx*= -1;
                 monster.x+=monsterVelocityx*2;
+                bombBlast();
                 
                 for(let j=0;j<array.length;j++){
                     array[j].y +=monsterHeight;
+                    
                 }
             }
+            
 
             context.drawImage(monsterImg,monster.x,monster.y,monster.width,monster.height)
             if(monster.y>=ship.y){
@@ -106,7 +114,7 @@ function update(){
     for(let i=0;i< bulletArray.length;i++){
         let  bullet= bulletArray[i];
         bullet.y+=bulletVelocity;
-        context.fillStyle="orange";
+        context.fillStyle="green";
         context.fillRect(bullet.x,bullet.y,bullet.width,bullet.height);
         
 
@@ -125,9 +133,30 @@ function update(){
     while(bulletArray.length>0 && (bulletArray[0].used || bulletArray[0].y<0)){
         bulletArray.shift();
     }
+    for(let i=0;i< bombArray.length;i++){
+        let  bomb= bombArray[i];
+        bomb.y+=bombVelocity;
+        context.fillStyle="red";
+        context.fillRect(bomb.x,bomb.y,bomb.width,bomb.height);
+        
+
+            if(collision(bomb,ship)){
+                gameover=true;
+                audio2();
+                context.fillStyle="white";
+                context.font="60px courier";
+                context.fillText(gameovertext,270,350)
+            }
+    }
+    
+
+    while(bombArray.length>0 && (bombArray[0].used || bombArray[0].y>board.height)){
+        bombArray.shift();
+    }
+    
 
     if(monsterCount==0){
-        monsterColoumn = Math.min(monsterColoumn+1, columns/2);
+        monsterColoumn = Math.min(monsterColoumn+1, columns/2 +2);
         monsterRows=Math.min(monsterRows+1, rows+44);
         monsterVelocityx+=.5;
         array=[];
@@ -140,6 +169,8 @@ function update(){
     context.fillText(score,5,20)
 
 }
+
+
 function movement(event){
     if(gameover){
         return;
@@ -168,10 +199,15 @@ function movement(event){
                 alive : true
             }
             array.push(monster);
+            
+           
+            
+            
         }
     }
     monsterCount=array.length;
  }
+
 function fire(event){
     if(gameover){
         return;
@@ -188,6 +224,24 @@ function fire(event){
         bulletArray.push(bullet);
         
     }
+}
+
+function bombBlast(){
+    if(gameover){
+        return;
+    }
+     let bomb={
+            x: Math.random()*board.width,
+            y: 150,
+            width: blockSize*2,
+            height: blockSize*2,
+            used:false
+        }
+        bombArray.push(bomb);
+    //  setTimeout(bombBlast, 2000);
+         
+        
+    
 }
 
 function collision(a,b){

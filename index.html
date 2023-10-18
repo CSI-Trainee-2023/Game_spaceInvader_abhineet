@@ -3,16 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spaceinvader</title>
-    <link rel="stylesheet" href="/Game_spaceInvader_abhineet/style.css">
-     
+    <title>Space Invader</title>
+    <style>
+    body{ background-image:url("assets/space.png") ;
+
+        }
+    @font-face { font-family:Starjhol; 
+        src: url('assets/Starjhol.ttf'); }  
+     h1{
+        font-family: Starjhol;
+        color: rgb(212, 247, 14);
+        display: block;
+        text-align: center;
+        font-size: 420%;
+        margin-bottom: 15%;
+    } 
+    .button{
+        display: flex;
+        justify-content: center;
+        font-size: xx-large;
+    }
+    #start{
+        font-size: larger;
+        background-color: rgb(212, 247, 14);
+        cursor: pointer;
+
+    }
+    </style>
 </head>
 <body>
-    <audio id="blastAudio" src="assets\blast.mp3"></audio>
-    <audio id="gameoverAudio" src="assets\gameover.mp3"></audio>
-    <!-- <h1>Space invader</h1> -->
-     <canvas width="900" height="750" id="space_invader"></canvas>
-    <script src="script.js"></script>
-    <img src="" alt="">
+    <h1>Space invader</h1>
+
+    <div class="button">
+        <a href="game.html">
+        <button id="start">Start</button>
+    </a>
+    </div>
 </body>
 </html>
